@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cultivarium - Documentación del Proyecto</title>
+    <title>Cultivarium - Project Documentation</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -79,6 +79,7 @@
 </head>
 <body class="bg-cult-bg-alt">
 <div id="root"></div>
+
 
 <script type="text/babel">
     const { useState, useEffect, useMemo, createContext, useContext } = React;
@@ -203,18 +204,18 @@
         };
 
         const navigationStructure = [
-            { id: "home", icon: "home", label: "Bienvenida" },
-            { id: "mission", icon: "rocket", label: "Misión y Visión", children: [
-                    { id: "v2mom", label: "Marco V2MOM" },
-                    { id: "ods", label: "Alineación ODS" },
+            { id: "home", icon: "home", label: "Welcome" },
+            { id: "mission", icon: "rocket", label: "Mission & Vision", children: [
+                    { id: "v2mom", label: "V2MOM Framework" },
+                    { id: "ods", label: "SDG Alignment" },
                 ]},
-            { id: "data", icon: "database", label: "Fuentes de Datos", children: [
+            { id: "data", icon: "database", label: "Data Sources", children: [
                     { id: "smap", label: "NASA SMAP" },
                     { id: "gpm", label: "NASA GPM" },
                     { id: "modis", label: "NASA MODIS/VIIRS" },
                 ]},
-            { id: "tech", icon: "cpu", label: "Stack Tecnológico" },
-            { id: "team", icon: "users", label: "Equipo y Partners" }
+            { id: "tech", icon: "cpu", label: "Tech Stack" },
+            { id: "team", icon: "users", label: "Team & Partners" }
         ];
 
         return (
@@ -249,14 +250,14 @@
 
     const HomePage = () => (
         <div>
-            <PageHeader title="Bienvenida al Proyecto Cultivarium" subtitle="La documentación central para el simulador de resiliencia climática."/>
+            <PageHeader title="Welcome to the Cultivarium Project" subtitle="The central documentation for the climate resilience simulator."/>
             <Card>
-                <h3 className="font-bold font-outfit text-xl mb-2">Visión General</h3>
+                <h3 className="font-bold font-outfit text-xl mb-2">Overview</h3>
                 <p className="text-cult-ink/80 leading-relaxed">
-                    Cultivarium no es meramente un videojuego; es un <strong>motor de simulación causal gamificado</strong>, un "simulador de vuelo" para la gestión planetaria. Su propósito es traducir la complejidad abstracta de los datos satelitales de la NASA en sabiduría tangible y accionable, empoderando a una generación global para navegar los desafíos del cambio climático con previsión y destreza.
+                    Cultivarium is not just a video game; it is a <strong>gamified causal simulation engine</strong>, a "flight simulator" for planetary management. Its purpose is to translate the abstract complexity of NASA satellite data into tangible, actionable wisdom, empowering a global generation to navigate climate change challenges with foresight and skill.
                 </p>
                 <p className="mt-4 text-cult-ink/80 leading-relaxed">
-                    Esta documentación sirve como la única fuente de verdad para el equipo de desarrollo. Define nuestra misión, la base científica, la arquitectura tecnológica y los protocolos de ejecución. Utiliza la barra de navegación lateral para explorar cada sección del proyecto.
+                    This documentation serves as the single source of truth for the development team. It defines our mission, scientific foundation, technological architecture, and execution protocols. Use the sidebar navigation to explore each section of the project.
                 </p>
             </Card>
         </div>
@@ -264,38 +265,38 @@
 
     const V2MOMPage = () => (
         <div>
-            <PageHeader title="Misión y Visión (V2MOM)" subtitle="Nuestro marco estratégico para la victoria global."/>
+            <PageHeader title="Mission & Vision (V2MOM)" subtitle="Our strategic framework for global victory."/>
             <Card>
-                <h3 className="font-bold font-outfit text-xl mb-4">El Marco V2MOM de Cultivarium</h3>
+                <h3 className="font-bold font-outfit text-xl mb-4">Cultivarium's V2MOM Framework</h3>
                 <div className="space-y-6">
                     <div>
-                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="rocket"/>Visión (Vision)</h4>
-                        <p className="pl-8 text-cult-ink/80 border-l-2 border-cult-accent ml-2 py-2 mt-2">Empoderar a una generación de agricultores y líderes para construir un futuro de resiliencia climática, cerrando la brecha de última milla entre los datos geoespaciales y la acción sostenible.</p>
+                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="rocket"/>Vision</h4>
+                        <p className="pl-8 text-cult-ink/80 border-l-2 border-cult-accent ml-2 py-2 mt-2">Empower a generation of farmers and leaders to build a future of climate resilience, bridging the last-mile gap between geospatial data and sustainable action.</p>
                     </div>
                     <div>
-                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="gem"/>Valores (Values)</h4>
+                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="gem"/>Values</h4>
                         <ul className="pl-8 text-cult-ink/80 list-disc list-inside space-y-2 mt-2">
-                            <li><strong>Rigor Científico:</strong> Simulaciones ancladas en principios verificables.</li>
-                            <li><strong>Empoderamiento del Usuario:</strong> Convertir datos en decisiones.</li>
-                            <li><strong>Sostenibilidad Sistémica:</strong> Modelar la interconexión de los ecosistemas.</li>
-                            <li><strong>Transparencia Radical:</strong> Métodos y datos abiertos al escrutinio.</li>
+                            <li><strong>Scientific Rigor:</strong> Simulations anchored in verifiable principles.</li>
+                            <li><strong>User Empowerment:</strong> Turning data into decisions.</li>
+                            <li><strong>Systemic Sustainability:</strong> Modeling ecosystem interconnection.</li>
+                            <li><strong>Radical Transparency:</strong> Methods and data open to scrutiny.</li>
                         </ul>
                     </div>
                     <div>
-                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="wrench"/>Métodos (Methods)</h4>
-                        <p className="pl-8 text-cult-ink/80 border-l-2 border-cult-info ml-2 py-2 mt-2">Implementar un motor de simulación desacoplado (DAEE) basado en datos SMAP y NDVI, con una arquitectura modular en Phaser 3 y un flujo de trabajo Ágil Asistido por IA (A3).</p>
+                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="wrench"/>Methods</h4>
+                        <p className="pl-8 text-cult-ink/80 border-l-2 border-cult-info ml-2 py-2 mt-2">Implement a decoupled simulation engine (DAEE) based on SMAP and NDVI data, with a modular architecture in Phaser 3 and an Agile AI-Assisted Workflow (A3).</p>
                     </div>
                     <div>
-                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="target"/>Obstáculos (Obstacles)</h4>
+                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="target"/>Obstacles</h4>
                         <ul className="pl-8 text-cult-ink/80 list-disc list-inside space-y-2 mt-2">
-                            <li><strong>Brecha de 'Última Milla':</strong> La dificultad de los usuarios no técnicos para interpretar datos satelitales.</li>
-                            <li><strong>Complejidad Causal:</strong> Simplificar modelos científicos complejos sin perder validez.</li>
-                            <li><strong>Rendimiento Web:</strong> Asegurar que una simulación rica en datos se ejecute fluidamente en el navegador.</li>
+                            <li><strong>'Last Mile' Gap:</strong> The difficulty for non-technical users to interpret satellite data.</li>
+                            <li><strong>Causal Complexity:</strong> Simplifying complex scientific models without losing validity.</li>
+                            <li><strong>Web Performance:</strong> Ensuring a data-rich simulation runs smoothly in the browser.</li>
                         </ul>
                     </div>
                     <div>
-                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="ruler"/>Medidas (Measures)</h4>
-                        <p className="pl-8 text-cult-ink/80 border-l-2 border-cult-warning ml-2 py-2 mt-2"><strong>OKR Principal:</strong> Lograr una precisión causal del 85% en la simulación de la caída del rendimiento de cultivos ante estrés hídrico, validado contra datos históricos.</p>
+                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="ruler"/>Measures</h4>
+                        <p className="pl-8 text-cult-ink/80 border-l-2 border-cult-warning ml-2 py-2 mt-2"><strong>Main OKR:</strong> Achieve 85% causal accuracy in simulating crop yield drop under water stress, validated against historical data.</p>
                     </div>
                 </div>
             </Card>
@@ -304,23 +305,23 @@
 
     const ODSPage = () => (
         <div>
-            <PageHeader title="Alineación con Objetivos de Desarrollo Sostenible (ODS)" subtitle="Nuestro compromiso con un impacto global medible."/>
+            <PageHeader title="Alignment with Sustainable Development Goals (SDG)" subtitle="Our commitment to measurable global impact."/>
             <div className="grid md:grid-cols-2 gap-6">
                 <Card>
-                    <h3 className="font-bold font-outfit text-xl mb-2 flex items-center gap-2"><Icon name="barley" className="text-cult-warning"/>ODS 2: Hambre Cero</h3>
-                    <p className="text-cult-ink/80">Cultivarium aborda la meta 2.4 (agricultura sostenible) al incentivar prácticas resilientes como la rotación de cultivos y la gestión de la salud del suelo para aumentar la productividad a largo plazo.</p>
+                    <h3 className="font-bold font-outfit text-xl mb-2 flex items-center gap-2"><Icon name="barley" className="text-cult-warning"/>SDG 2: Zero Hunger</h3>
+                    <p className="text-cult-ink/80">Cultivarium addresses target 2.4 (sustainable agriculture) by incentivizing resilient practices such as crop rotation and soil health management to increase long-term productivity.</p>
                 </Card>
                 <Card>
-                    <h3 className="font-bold font-outfit text-xl mb-2 flex items-center gap-2"><Icon name="droplets" className="text-cult-info"/>ODS 6: Agua Limpia</h3>
-                    <p className="text-cult-ink/80">La mecánica de "Bancarrota Hídrica" enseña directamente la meta 6.4 (eficiencia hídrica), mostrando el coste real de la sobreexplotación de acuíferos y fomentando la inversión en riego eficiente.</p>
+                    <h3 className="font-bold font-outfit text-xl mb-2 flex items-center gap-2"><Icon name="droplets" className="text-cult-info"/>SDG 6: Clean Water</h3>
+                    <p className="text-cult-ink/80">The "Water Bankruptcy" mechanic directly teaches target 6.4 (water efficiency), showing the real cost of aquifer overexploitation and encouraging investment in efficient irrigation.</p>
                 </Card>
                 <Card>
-                    <h3 className="font-bold font-outfit text-xl mb-2 flex items-center gap-2"><Icon name="recycle" className="text-green-500"/>ODS 12: Producción Responsable</h3>
-                    <p className="text-cult-ink/80">El sistema de "Deuda de Sostenibilidad" (Residuos Químicos) simula las consecuencias del uso indiscriminado de agroquímicos, alineándose con la gestión sostenible de los recursos naturales.</p>
+                    <h3 className="font-bold font-outfit text-xl mb-2 flex items-center gap-2"><Icon name="recycle" className="text-green-500"/>SDG 12: Responsible Production</h3>
+                    <p className="text-cult-ink/80">The "Sustainability Debt" system (Chemical Waste) simulates the consequences of indiscriminate agrochemical use, aligning with sustainable natural resource management.</p>
                 </Card>
                 <Card>
-                    <h3 className="font-bold font-outfit text-xl mb-2 flex items-center gap-2"><Icon name="cloud-sun" className="text-orange-500"/>ODS 13: Acción por el Clima</h3>
-                    <p className="text-cult-ink/80">El juego es un "simulador de vuelo" para la meta 13.1 (resiliencia y adaptación), entrenando a los jugadores para gestionar riesgos climáticos como sequías y olas de calor basados en datos reales.</p>
+                    <h3 className="font-bold font-outfit text-xl mb-2 flex items-center gap-2"><Icon name="cloud-sun" className="text-orange-500"/>SDG 13: Climate Action</h3>
+                    <p className="text-cult-ink/80">The game is a "flight simulator" for target 13.1 (resilience and adaptation), training players to manage climate risks such as droughts and heatwaves based on real data.</p>
                 </Card>
             </div>
         </div>
@@ -330,27 +331,27 @@
         const dataSources = {
             smap: {
                 title: "NASA SMAP (Soil Moisture Active Passive)",
-                subtitle: "El anclaje a la realidad para la humedad del suelo.",
+                subtitle: "The reality anchor for soil moisture.",
                 icon: "thermometer-snowflake",
-                content: "La misión SMAP proporciona mediciones de la cantidad de agua en los 5 cm superiores del suelo con cobertura global. En Cultivarium, usamos un proxy de estos datos como la variable de estado central para la 'Bancarrota Hídrica'. Esto dota a nuestra simulación de una base empírica inquebrantable y una conexión directa con los activos de la NASA.",
-                resolution: "9km Espacial / 2-3 días Temporal",
-                useCase: "Detectar estrés hídrico y optimizar el riego."
+                content: "The SMAP mission provides measurements of the amount of water in the top 5 cm of soil with global coverage. In Cultivarium, we use a proxy of this data as the central state variable for 'Water Bankruptcy'. This gives our simulation an unbreakable empirical foundation and a direct connection to NASA assets.",
+                resolution: "9km Spatial / 2-3 days Temporal",
+                useCase: "Detect water stress and optimize irrigation."
             },
             gpm: {
                 title: "NASA GPM (Global Precipitation Measurement)",
-                subtitle: "Simulando la lluvia con alta resolución y precisión.",
+                subtitle: "Simulating rainfall with high resolution and accuracy.",
                 icon: "cloud-rain",
-                content: "GPM es una constelación de satélites que proporciona observaciones de lluvia y nieve a nivel mundial. El producto IMERG, con su alta resolución espacial (10km) y temporal (30min), es la base de nuestro motor climático. Asegura que los patrones de precipitación en el juego sean realistas y representen la variabilidad que enfrentan los agricultores.",
-                resolution: "10km Espacial / 30 min Temporal",
-                useCase: "Anticipar inundaciones y recarga del 'tanque' de agua."
+                content: "GPM is a constellation of satellites providing global observations of rain and snow. The IMERG product, with its high spatial (10km) and temporal (30min) resolution, is the basis of our climate engine. It ensures that precipitation patterns in the game are realistic and represent the variability faced by farmers.",
+                resolution: "10km Spatial / 30 min Temporal",
+                useCase: "Anticipate floods and recharge the 'water tank'."
             },
             modis: {
                 title: "NASA MODIS/VIIRS (NDVI)",
-                subtitle: "La 'barra de vida' de la vegetación, vista desde el espacio.",
+                subtitle: "The vegetation 'life bar', seen from space.",
                 icon: "leaf",
-                content: "El Índice de Vegetación de Diferencia Normalizada (NDVI) se calcula a partir de la reflectancia de la luz y es el indicador más usado para evaluar la salud y densidad de la vegetación. En Cultivarium, el NDVI es la métrica de éxito visible (la barra de vida del cultivo), correlacionada directamente con el rendimiento final. Es la prueba visual del impacto de las decisiones del jugador.",
-                resolution: "250m-1km Espacial / 1-16 días Temporal",
-                useCase: "Monitorear la salud del cultivo y predecir el rendimiento."
+                content: "The Normalized Difference Vegetation Index (NDVI) is calculated from light reflectance and is the most used indicator to assess vegetation health and density. In Cultivarium, NDVI is the visible success metric (the crop's life bar), directly correlated with final yield. It is the visual proof of the player's decisions' impact.",
+                resolution: "250m-1km Spatial / 1-16 days Temporal",
+                useCase: "Monitor crop health and predict yield."
             }
         };
         const currentSource = dataSources[source];
@@ -362,19 +363,19 @@
                         <p className="text-cult-ink/80 leading-relaxed">{currentSource.content}</p>
                     </Card>
                     <Card>
-                        <h3 className="font-bold font-outfit text-lg mb-4">Ficha Técnica</h3>
+                        <h3 className="font-bold font-outfit text-lg mb-4">Technical Sheet</h3>
                         <div className="space-y-3 text-sm">
                             <div className="flex justify-between">
-                                <span className="font-bold text-cult-ink/70">Resolución:</span>
+                                <span className="font-bold text-cult-ink/70">Resolution:</span>
                                 <span>{currentSource.resolution}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="font-bold text-cult-ink/70">Caso de Uso:</span>
+                                <span className="font-bold text-cult-ink/70">Use Case:</span>
                                 <span className="text-right">{currentSource.useCase}</span>
                             </div>
                             <div className="flex justify-between items-center">
-                                <span className="font-bold text-cult-ink/70">Estado:</span>
-                                <Badge color="bg-green-100 text-green-800">Integrado</Badge>
+                                <span className="font-bold text-cult-ink/70">Status:</span>
+                                <Badge color="bg-green-100 text-green-800">Integrated</Badge>
                             </div>
                         </div>
                     </Card>
@@ -385,43 +386,42 @@
 
     const TechStackPage = () => (
         <div>
-            <PageHeader title="Stack Tecnológico" subtitle="Las herramientas elegidas para una ejecución rápida y robusta."/>
+            <PageHeader title="Tech Stack" subtitle="The tools chosen for fast and robust execution."/>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <Card>
                     <h3 className="font-bold font-outfit text-xl mb-2">React + JS (JSX)</h3>
-                    <p className="text-sm text-cult-ink/80">Para una UI declarativa y escalable, permitiendo construir componentes reutilizables y mantener una base de código limpia y moderna.</p>
+                    <p className="text-sm text-cult-ink/80">For a declarative and scalable UI, allowing reusable components and a clean, modern codebase.</p>
                 </Card>
                 <Card>
                     <h3 className="font-bold font-outfit text-xl mb-2">Tailwind CSS</h3>
-                    <p className="text-sm text-cult-ink/80">Un framework utility-first que nos permite prototipar rápidamente y construir diseños personalizados sin salir del HTML.</p>
+                    <p className="text-sm text-cult-ink/80">A utility-first framework that lets us quickly prototype and build custom designs without leaving the HTML.</p>
                 </Card>
                 <Card>
                     <h3 className="font-bold font-outfit text-xl mb-2">Phaser 3</h3>
-                    <p className="text-sm text-cult-ink/80">El motor del juego principal, elegido por su flexibilidad y rendimiento en 2D/2.5D para la web. Se integra con React para la capa de UI.</p>
+                    <p className="text-sm text-cult-ink/80">The main game engine, chosen for its flexibility and 2D/2.5D web performance. Integrates with React for the UI layer.</p>
                 </Card>
                 <Card>
                     <h3 className="font-bold font-outfit text-xl mb-2">Babel Standalone</h3>
-                    <p className="text-sm text-cult-ink/80">Permite la transpilación de JSX directamente en el navegador, ideal para prototipado rápido en un solo archivo sin un paso de compilación.</p>
+                    <p className="text-sm text-cult-ink/80">Allows JSX transpilation directly in the browser, ideal for rapid prototyping in a single file without a build step.</p>
                 </Card>
                 <Card>
                     <h3 className="font-bold font-outfit text-xl mb-2">Azure Static Web Apps</h3>
-                    <p className="text-sm text-cult-ink/80">La plataforma de despliegue, integrada con GitHub Actions para un pipeline CI/CD robusto que garantiza una entrega continua.</p>
+                    <p className="text-sm text-cult-ink/80">The deployment platform, integrated with GitHub Actions for a robust CI/CD pipeline ensuring continuous delivery.</p>
                 </Card>
                 <Card>
                     <h3 className="font-bold font-outfit text-xl mb-2">Lucide Icons</h3>
-                    <p className="text-sm text-cult-ink/80">Una librería de iconos limpia y consistente que refuerza nuestra estética moderna y minimalista.</p>
+                    <p className="text-sm text-cult-ink/80">A clean and consistent icon library that reinforces our modern and minimalist aesthetic.</p>
                 </Card>
             </div>
-            <h3 className="font-bold font-outfit text-2xl mt-12 mb-4">Esquema de Entidad Scenario</h3>
+            <h3 className="font-bold font-outfit text-2xl mt-12 mb-4">Scenario Entity Schema</h3>
             <CodeBlock>
                 {`
-// JSDoc for type definition
 /**
  * @typedef {'maiz' | 'papa' | 'arroz' | 'cafe' | string} CropType
  * @typedef {'seca' | 'lluviosa'} SeasonType
- * * @typedef {object} Scenario
- * @property {string} id - UUID del escenario
- * @property {string} [ownerId] - ID del usuario propietario
+ * @typedef {object} Scenario
+ * @property {string} id - Scenario UUID
+ * @property {string} [ownerId] - Owner user ID
  * @property {{ country: string, region?: string, lat: number, lon: number }} location
  * @property {SeasonType} season
  * @property {CropType} crop
@@ -437,60 +437,62 @@
 
     const TeamPage = () => (
         <div>
-            <PageHeader title="Equipo y Partners" subtitle="Los arquitectos de la resiliencia climática."/>
+            <PageHeader title="Team & Partners" subtitle="The architects of climate resilience."/>
             <Card>
-                <h3 className="font-bold font-outfit text-xl mb-4">Miembros del equipo</h3>
+                <h3 className="font-bold font-outfit text-xl mb-4">Team Members</h3>
                 <div className="grid md:grid-cols-2 gap-6">
                     <div className="flex items-center gap-4 p-3 bg-cult-bg-alt rounded-xl">
                         <span className="inline-block w-10 h-10 rounded-full bg-cult-accent/20 text-cult-accent text-2xl flex items-center justify-center">👨‍💼</span>
                         <div>
                             <div className="font-bold">Miguel Andrés Centellas López</div>
-                            <div className="text-cult-ink/60 text-xs">Perú</div>
+                            <div className="text-cult-ink/60 text-xs">Peru</div>
                             <div className="text-cult-ink/60 text-xs">IES CIBERTEC S.A.C</div>
-                            <div className="text-cult-ink/60 text-xs">Computación e Informática</div>
+                            <div className="text-cult-ink/60 text-xs">Computer Science</div>
                         </div>
                     </div>
                     <div className="flex items-center gap-4 p-3 bg-cult-bg-alt rounded-xl">
                         <span className="inline-block w-10 h-10 rounded-full bg-cult-accent/20 text-cult-accent text-2xl flex items-center justify-center">👨‍🎓</span>
                         <div>
                             <div className="font-bold">Bryan Edgar Yared Vargas Maldonado</div>
-                            <div className="text-cult-ink/60 text-xs">Perú</div>
+                            <div className="text-cult-ink/60 text-xs">Peru</div>
                             <div className="text-cult-ink/60 text-xs">Universidad Nacional Agraria La Molina</div>
-                            <div className="text-cult-ink/60 text-xs">Estadística e Informática (Data Science) - Ingeniería Agrícola</div>
+                            <div className="text-cult-ink/60 text-xs">Statistics & Computer Science (Data Science) - Agricultural Engineering</div>
                         </div>
                     </div>
                     <div className="flex items-center gap-4 p-3 bg-cult-bg-alt rounded-xl">
                         <span className="inline-block w-10 h-10 rounded-full bg-cult-accent/20 text-cult-accent text-2xl flex items-center justify-center">👨‍💻</span>
                         <div>
                             <div className="font-bold">Henoc Elías Jorge Ugarte</div>
-                            <div className="text-cult-ink/60 text-xs">Perú</div>
+                            <div className="text-cult-ink/60 text-xs">Peru</div>
                             <div className="text-cult-ink/60 text-xs">IES CIBERTEC S.A.C</div>
-                            <div className="text-cult-ink/60 text-xs">Computación e Informática</div>
+                            <div className="text-cult-ink/60 text-xs">Computer Science</div>
                         </div>
                     </div>
                     <div className="flex items-center gap-4 p-3 bg-cult-bg-alt rounded-xl">
                         <span className="inline-block w-10 h-10 rounded-full bg-cult-accent/20 text-cult-accent text-2xl flex items-center justify-center">👩‍🎓</span>
                         <div>
                             <div className="font-bold">Yaki Clarita Guerrero García</div>
-                            <div className="text-cult-ink/60 text-xs">Perú</div>
+                            <div className="text-cult-ink/60 text-xs">Peru</div>
                             <div className="text-cult-ink/60 text-xs">Universidad Peruana de Ciencias Aplicadas</div>
-                            <div className="text-cult-ink/60 text-xs">Ingeniería Industrial</div>
+                            <div className="text-cult-ink/60 text-xs">Industrial Engineering</div>
                         </div>
                     </div>
                     <div className="flex items-center gap-4 p-3 bg-cult-bg-alt rounded-xl">
                         <span className="inline-block w-10 h-10 rounded-full bg-cult-accent/20 text-cult-accent text-2xl flex items-center justify-center">👨‍💻</span>
                         <div>
                             <div className="font-bold">Abraham Jeremias Huamán Carlos</div>
-                            <div className="text-cult-ink/60 text-xs">Perú</div>
+                            <div className="text-cult-ink/60 text-xs">Peru</div>
                             <div className="text-cult-ink/60 text-xs">Universidad de San Martin de Porres</div>
-                            <div className="text-cult-ink/60 text-xs">Ing. Computación y sistemas</div>
+                            <div className="text-cult-ink/60 text-xs">Computer Systems Engineering</div>
                         </div>
                     </div>
                     <div className="flex items-center gap-4 p-3 bg-cult-bg-alt rounded-xl">
                         <span className="inline-block w-10 h-10 rounded-full bg-cult-accent/20 text-cult-accent text-2xl flex items-center justify-center">👨‍💻</span>
                         <div>
                             <div className="font-bold">Alessandro David Vicente Conislla</div>
-                            <div className="text-cult-ink/60 text-xs">Perú</div>
+                            <div className="text-cult-ink/60 text-xs">Peru</div>
+                            <div className="text-cult-ink/60 text-xs">Universidad Peruana de Ciencias Aplicadas</div>
+                            <div className="text-cult-ink/60 text-xs">Electronic Engineering</div>
                         </div>
                     </div>
                 </div>
