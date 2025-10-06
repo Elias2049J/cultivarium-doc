@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultivarium - Documentación del Proyecto</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- React & Babel for JSX -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Manrope:wght@400;700;800&family=Montserrat:wght@700;900&family=Outfit:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #90A56C;
+            --bg-alt: #E9D8B7;
+            --panel: #FFFFFF;
+            --accent: #00FFD1;
+            --danger: #F87171;
+            --warning: #FBBF24;
+            --info: #60A5FA;
+            --ink: #24323F;
+        }
+        body {
+            background-color: var(--bg-alt);
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .font-title { font-family: 'Montserrat', sans-serif; }
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+        .font-outfit { font-family: 'Outfit', sans-serif; }
+        .texture-paper {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%E3E%3C/g%E3E%3C/svg%E3E");
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-alt); }
+        ::-webkit-scrollbar-thumb { background: #7E9360; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6a7e53; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cult-bg': 'var(--bg)',
+                        'cult-bg-alt': 'var(--bg-alt)',
+                        'cult-panel': 'var(--panel)',
+                        'cult-accent': 'var(--accent)',
+                        'cult-danger': 'var(--danger)',
+                        'cult-warning': 'var(--warning)',
+                        'cult-info': 'var(--info)',
+                        'cult-ink': 'var(--ink)',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'title': ['Montserrat', 'sans-serif'],
+                        'manrope': ['Manrope', 'sans-serif'],
+                        'outfit': ['Outfit', 'sans-serif'],
+                    },
+                    borderRadius: { '2xl': '1rem' },
+                    boxShadow: { 'soft-lg': '0 10px 25px -3px rgba(36, 50, 63, 0.1), 0 4px 6px -4px rgba(36, 50, 63, 0.1)' },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-cult-bg-alt">
+<div id="root"></div>
+
+<script type="text/babel">
+    const { useState, useEffect, useMemo, createContext, useContext } = React;
+
+    // --- CONTEXT for navigation ---
+    const NavigationContext = createContext(null);
+
+    const AppProvider = ({ children }) => {
+        const [currentPage, setCurrentPage] = useState('home');
+        const navigate = (page) => {
+            window.scrollTo(0, 0);
+            setCurrentPage(page);
+        };
+
+        useEffect(() => {
+            lucide.createIcons();
+        }, [currentPage]);
+
+        const value = { currentPage, navigate };
+        return <NavigationContext.Provider value={value}>{children}</NavigationContext.Provider>;
+    };
+
+    const useNavigation = () => useContext(NavigationContext);
+
+    // --- ICONS ---
+    const Icon = ({ name, className = "w-4 h-4" }) => {
+        useEffect(() => { lucide.createIcons(); }, []);
+        return <i data-lucide={name} className={className}></i>;
+    };
+
+    // --- UI COMPONENTS ---
+    const Card = ({ children, className }) => (
+        <div className={`bg-cult-panel rounded-2xl p-6 shadow-soft-lg texture-paper border border-black/5 ${className || ''}`}>
+            {children}
+        </div>
+    );
+
+    const CodeBlock = ({ children }) => {
+        const [copied, setCopied] = useState(false);
+        const textToCopy = children;
+
+        const handleCopy = () => {
+            const textarea = document.createElement('textarea');
+            textarea.value = textToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+            document.body.removeChild(textarea);
+        };
+
+        return (
+            <div className="bg-cult-ink rounded-lg my-4 relative font-mono text-sm">
+                <button onClick={handleCopy} className="absolute top-2 right-2 p-1.5 rounded-md bg-white/10 hover:bg-white/20 transition-colors">
+                    <Icon name={copied ? "check" : "copy"} className="w-4 h-4 text-white" />
+                </button>
+                <pre className="p-4 text-white/90 overflow-x-auto">
+                        <code>{children}</code>
+                    </pre>
+            </div>
+        );
+    };
+
+    const Badge = ({ children, color = 'bg-cult-accent/20 text-cult-accent' }) => (
+        <span className={`${color} px-2 py-1 text-xs font-bold rounded-full`}>{children}</span>
+    );
+
+    // --- LAYOUT COMPONENTS ---
+    const Sidebar = () => {
+        const { currentPage, navigate } = useNavigation();
+
+        const NavItem = ({ id, icon, label, children }) => {
+            const isActive = currentPage === id || (children && children.some(child => child.id === currentPage));
+            const [isOpen, setIsOpen] = useState(isActive);
+
+            useEffect(() => {
+                if (isActive) setIsOpen(true);
+            }, [isActive]);
+
+            const handleToggle = (e) => {
+                e.preventDefault();
+                if (children) {
+                    setIsOpen(!isOpen);
+                } else {
+                    navigate(id);
+                }
+            };
+
+            return (
+                <div>
+                    <a href="#" onClick={handleToggle}
+                       className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm font-bold transition-colors ${isActive ? 'bg-cult-accent/20 text-cult-ink' : 'text-cult-ink/60 hover:bg-black/5 hover:text-cult-ink'}`}>
+                        <div className="flex items-center gap-3">
+                            <Icon name={icon} className="w-5 h-5" />
+                            <span>{label}</span>
+                        </div>
+                        {children && <Icon name={isOpen ? "chevron-down" : "chevron-right"} className="w-4 h-4"/>}
+                    </a>
+                    {isOpen && children && (
+                        <div className="pl-8 pt-2 space-y-1">
+                            {children.map(child => <SubNavItem key={child.id} {...child} />)}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const SubNavItem = ({id, label}) => {
+            const { currentPage, navigate } = useNavigation();
+            const isSubActive = currentPage === id;
+            return (
+                <a href="#" onClick={(e) => { e.preventDefault(); navigate(id); }}
+                   className={`block text-sm py-1 font-medium transition-colors ${isSubActive ? 'text-cult-ink font-bold' : 'text-cult-ink/60 hover:text-cult-ink'}`}>
+                    {label}
+                </a>
+            );
+        };
+
+        const navigationStructure = [
+            { id: "home", icon: "home", label: "Bienvenida" },
+            { id: "mission", icon: "rocket", label: "Misión y Visión", children: [
+                    { id: "v2mom", label: "Marco V2MOM" },
+                    { id: "ods", label: "Alineación ODS" },
+                ]},
+            { id: "data", icon: "database", label: "Fuentes de Datos", children: [
+                    { id: "smap", label: "NASA SMAP" },
+                    { id: "gpm", label: "NASA GPM" },
+                    { id: "modis", label: "NASA MODIS/VIIRS" },
+                ]},
+            { id: "tech", icon: "cpu", label: "Stack Tecnológico" },
+            { id: "team", icon: "users", label: "Equipo y Partners" }
+        ];
+
+        return (
+            <aside className="w-64 bg-cult-bg h-screen fixed top-0 left-0 p-4 flex flex-col">
+                <div className="flex items-center gap-2 p-3 mb-6">
+                    <span className="text-3xl">🌱</span>
+                    <h1 className="text-2xl font-black font-title text-cult-ink">Cultivarium</h1>
+                </div>
+                <nav className="flex-grow space-y-2 overflow-y-auto">
+                    {navigationStructure.map(item => <NavItem key={item.id} {...item} />)}
+                </nav>
+                <div className="text-xs text-center text-cult-ink/50 p-4">
+                    <p>&copy; 2025 Cultivarium Project</p>
+                    <p>NASA Space Apps Challenge</p>
+                </div>
+            </aside>
+        );
+    };
+
+    const PageHeader = ({ title, subtitle }) => (
+        <div className="mb-8 pb-4 border-b border-cult-ink/10">
+            <h2 className="text-4xl font-black font-title text-cult-ink">{title}</h2>
+            {subtitle && <p className="mt-2 text-cult-ink/70 font-manrope">{subtitle}</p>}
+        </div>
+    );
+
+    // --- CONTENT PAGES ---
+    // To add a new page:
+    // 1. Create a new component function like const NewPage = () => ( ... );
+    // 2. Add its ID and info to navigationStructure in the Sidebar component.
+    // 3. Add a case for it in the renderPage switch statement in the App component.
+
+    const HomePage = () => (
+        <div>
+            <PageHeader title="Bienvenida al Proyecto Cultivarium" subtitle="La documentación central para el simulador de resiliencia climática."/>
+            <Card>
+                <h3 className="font-bold font-outfit text-xl mb-2">Visión General</h3>
+                <p className="text-cult-ink/80 leading-relaxed">
+                    Cultivarium no es meramente un videojuego; es un <strong>motor de simulación causal gamificado</strong>, un "simulador de vuelo" para la gestión planetaria. Su propósito es traducir la complejidad abstracta de los datos satelitales de la NASA en sabiduría tangible y accionable, empoderando a una generación global para navegar los desafíos del cambio climático con previsión y destreza.
+                </p>
+                <p className="mt-4 text-cult-ink/80 leading-relaxed">
+                    Esta documentación sirve como la única fuente de verdad para el equipo de desarrollo. Define nuestra misión, la base científica, la arquitectura tecnológica y los protocolos de ejecución. Utiliza la barra de navegación lateral para explorar cada sección del proyecto.
+                </p>
+            </Card>
+        </div>
+    );
+
+    const V2MOMPage = () => (
+        <div>
+            <PageHeader title="Misión y Visión (V2MOM)" subtitle="Nuestro marco estratégico para la victoria global."/>
+            <Card>
+                <h3 className="font-bold font-outfit text-xl mb-4">El Marco V2MOM de Cultivarium</h3>
+                <div className="space-y-6">
+                    <div>
+                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="rocket"/>Visión (Vision)</h4>
+                        <p className="pl-8 text-cult-ink/80 border-l-2 border-cult-accent ml-2 py-2 mt-2">Empoderar a una generación de agricultores y líderes para construir un futuro de resiliencia climática, cerrando la brecha de última milla entre los datos geoespaciales y la acción sostenible.</p>
+                    </div>
+                    <div>
+                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="gem"/>Valores (Values)</h4>
+                        <ul className="pl-8 text-cult-ink/80 list-disc list-inside space-y-2 mt-2">
+                            <li><strong>Rigor Científico:</strong> Simulaciones ancladas en principios verificables.</li>
+                            <li><strong>Empoderamiento del Usuario:</strong> Convertir datos en decisiones.</li>
+                            <li><strong>Sostenibilidad Sistémica:</strong> Modelar la interconexión de los ecosistemas.</li>
+                            <li><strong>Transparencia Radical:</strong> Métodos y datos abiertos al escrutinio.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="wrench"/>Métodos (Methods)</h4>
+                        <p className="pl-8 text-cult-ink/80 border-l-2 border-cult-info ml-2 py-2 mt-2">Implementar un motor de simulación desacoplado (DAEE) basado en datos SMAP y NDVI, con una arquitectura modular en Phaser 3 y un flujo de trabajo Ágil Asistido por IA (A3).</p>
+                    </div>
+                    <div>
+                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="target"/>Obstáculos (Obstacles)</h4>
+                        <ul className="pl-8 text-cult-ink/80 list-disc list-inside space-y-2 mt-2">
+                            <li><strong>Brecha de 'Última Milla':</strong> La dificultad de los usuarios no técnicos para interpretar datos satelitales.</li>
+                            <li><strong>Complejidad Causal:</strong> Simplificar modelos científicos complejos sin perder validez.</li>
+                            <li><strong>Rendimiento Web:</strong> Asegurar que una simulación rica en datos se ejecute fluidamente en el navegador.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="font-bold text-lg flex items-center gap-2"><Icon name="ruler"/>Medidas (Measures)</h4>
+                        <p className="pl-8 text-cult-ink/80 border-l-2 border-cult-warning ml-2 py-2 mt-2"><strong>OKR Principal:</strong> Lograr una precisión causal del 85% en la simulación de la caída del rendimiento de cultivos ante estrés hídrico, validado contra datos históricos.</p>
+                    </div>
+                </div>
+            </Card>
+        </div>
+    );
+
+    const ODSPage = () => (
+        <div>
+            <PageHeader title="Alineación con Objetivos de Desarrollo Sostenible (ODS)" subtitle="Nuestro compromiso con un impacto global medible."/>
+            <div className="grid md:grid-cols-2 gap-6">
+                <Card>
+                    <h3 className="font-bold font-outfit text-xl mb-2 flex items-center gap-2"><Icon name="barley" className="text-cult-warning"/>ODS 2: Hambre Cero</h3>
+                    <p className="text-cult-ink/80">Cultivarium aborda la meta 2.4 (agricultura sostenible) al incentivar prácticas resilientes como la rotación de cultivos y la gestión de la salud del suelo para aumentar la productividad a largo plazo.</p>
+                </Card>
+                <Card>
+                    <h3 className="font-bold font-outfit text-xl mb-2 flex items-center gap-2"><Icon name="droplets" className="text-cult-info"/>ODS 6: Agua Limpia</h3>
+                    <p className="text-cult-ink/80">La mecánica de "Bancarrota Hídrica" enseña directamente la meta 6.4 (eficiencia hídrica), mostrando el coste real de la sobreexplotación de acuíferos y fomentando la inversión en riego eficiente.</p>
+                </Card>
+                <Card>
+                    <h3 className="font-bold font-outfit text-xl mb-2 flex items-center gap-2"><Icon name="recycle" className="text-green-500"/>ODS 12: Producción Responsable</h3>
+                    <p className="text-cult-ink/80">El sistema de "Deuda de Sostenibilidad" (Residuos Químicos) simula las consecuencias del uso indiscriminado de agroquímicos, alineándose con la gestión sostenible de los recursos naturales.</p>
+                </Card>
+                <Card>
+                    <h3 className="font-bold font-outfit text-xl mb-2 flex items-center gap-2"><Icon name="cloud-sun" className="text-orange-500"/>ODS 13: Acción por el Clima</h3>
+                    <p className="text-cult-ink/80">El juego es un "simulador de vuelo" para la meta 13.1 (resiliencia y adaptación), entrenando a los jugadores para gestionar riesgos climáticos como sequías y olas de calor basados en datos reales.</p>
+                </Card>
+            </div>
+        </div>
+    );
+
+    const DataPage = ({ source }) => {
+        const dataSources = {
+            smap: {
+                title: "NASA SMAP (Soil Moisture Active Passive)",
+                subtitle: "El anclaje a la realidad para la humedad del suelo.",
+                icon: "thermometer-snowflake",
+                content: "La misión SMAP proporciona mediciones de la cantidad de agua en los 5 cm superiores del suelo con cobertura global. En Cultivarium, usamos un proxy de estos datos como la variable de estado central para la 'Bancarrota Hídrica'. Esto dota a nuestra simulación de una base empírica inquebrantable y una conexión directa con los activos de la NASA.",
+                resolution: "9km Espacial / 2-3 días Temporal",
+                useCase: "Detectar estrés hídrico y optimizar el riego."
+            },
+            gpm: {
+                title: "NASA GPM (Global Precipitation Measurement)",
+                subtitle: "Simulando la lluvia con alta resolución y precisión.",
+                icon: "cloud-rain",
+                content: "GPM es una constelación de satélites que proporciona observaciones de lluvia y nieve a nivel mundial. El producto IMERG, con su alta resolución espacial (10km) y temporal (30min), es la base de nuestro motor climático. Asegura que los patrones de precipitación en el juego sean realistas y representen la variabilidad que enfrentan los agricultores.",
+                resolution: "10km Espacial / 30 min Temporal",
+                useCase: "Anticipar inundaciones y recarga del 'tanque' de agua."
+            },
+            modis: {
+                title: "NASA MODIS/VIIRS (NDVI)",
+                subtitle: "La 'barra de vida' de la vegetación, vista desde el espacio.",
+                icon: "leaf",
+                content: "El Índice de Vegetación de Diferencia Normalizada (NDVI) se calcula a partir de la reflectancia de la luz y es el indicador más usado para evaluar la salud y densidad de la vegetación. En Cultivarium, el NDVI es la métrica de éxito visible (la barra de vida del cultivo), correlacionada directamente con el rendimiento final. Es la prueba visual del impacto de las decisiones del jugador.",
+                resolution: "250m-1km Espacial / 1-16 días Temporal",
+                useCase: "Monitorear la salud del cultivo y predecir el rendimiento."
+            }
+        };
+        const currentSource = dataSources[source];
+        return (
+            <div>
+                <PageHeader title={currentSource.title} subtitle={currentSource.subtitle}/>
+                <div className="grid lg:grid-cols-3 gap-6">
+                    <Card className="lg:col-span-2">
+                        <p className="text-cult-ink/80 leading-relaxed">{currentSource.content}</p>
+                    </Card>
+                    <Card>
+                        <h3 className="font-bold font-outfit text-lg mb-4">Ficha Técnica</h3>
+                        <div className="space-y-3 text-sm">
+                            <div className="flex justify-between">
+                                <span className="font-bold text-cult-ink/70">Resolución:</span>
+                                <span>{currentSource.resolution}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="font-bold text-cult-ink/70">Caso de Uso:</span>
+                                <span className="text-right">{currentSource.useCase}</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="font-bold text-cult-ink/70">Estado:</span>
+                                <Badge color="bg-green-100 text-green-800">Integrado</Badge>
+                            </div>
+                        </div>
+                    </Card>
+                </div>
+            </div>
+        )
+    };
+
+    const TechStackPage = () => (
+        <div>
+            <PageHeader title="Stack Tecnológico" subtitle="Las herramientas elegidas para una ejecución rápida y robusta."/>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card>
+                    <h3 className="font-bold font-outfit text-xl mb-2">React + JS (JSX)</h3>
+                    <p className="text-sm text-cult-ink/80">Para una UI declarativa y escalable, permitiendo construir componentes reutilizables y mantener una base de código limpia y moderna.</p>
+                </Card>
+                <Card>
+                    <h3 className="font-bold font-outfit text-xl mb-2">Tailwind CSS</h3>
+                    <p className="text-sm text-cult-ink/80">Un framework utility-first que nos permite prototipar rápidamente y construir diseños personalizados sin salir del HTML.</p>
+                </Card>
+                <Card>
+                    <h3 className="font-bold font-outfit text-xl mb-2">Phaser 3</h3>
+                    <p className="text-sm text-cult-ink/80">El motor del juego principal, elegido por su flexibilidad y rendimiento en 2D/2.5D para la web. Se integra con React para la capa de UI.</p>
+                </Card>
+                <Card>
+                    <h3 className="font-bold font-outfit text-xl mb-2">Babel Standalone</h3>
+                    <p className="text-sm text-cult-ink/80">Permite la transpilación de JSX directamente en el navegador, ideal para prototipado rápido en un solo archivo sin un paso de compilación.</p>
+                </Card>
+                <Card>
+                    <h3 className="font-bold font-outfit text-xl mb-2">Azure Static Web Apps</h3>
+                    <p className="text-sm text-cult-ink/80">La plataforma de despliegue, integrada con GitHub Actions para un pipeline CI/CD robusto que garantiza una entrega continua.</p>
+                </Card>
+                <Card>
+                    <h3 className="font-bold font-outfit text-xl mb-2">Lucide Icons</h3>
+                    <p className="text-sm text-cult-ink/80">Una librería de iconos limpia y consistente que refuerza nuestra estética moderna y minimalista.</p>
+                </Card>
+            </div>
+            <h3 className="font-bold font-outfit text-2xl mt-12 mb-4">Esquema de Entidad Scenario</h3>
+            <CodeBlock>
+                {`
+// JSDoc for type definition
+/**
+ * @typedef {'maiz' | 'papa' | 'arroz' | 'cafe' | string} CropType
+ * @typedef {'seca' | 'lluviosa'} SeasonType
+ * * @typedef {object} Scenario
+ * @property {string} id - UUID del escenario
+ * @property {string} [ownerId] - ID del usuario propietario
+ * @property {{ country: string, region?: string, lat: number, lon: number }} location
+ * @property {SeasonType} season
+ * @property {CropType} crop
+ * @property {{ yield?: boolean, waterSaving?: boolean, riskMin?: boolean }} objectives
+ * @property {{ drought?: boolean, flood?: boolean, heatwave?: boolean }} hazards
+ * @property {{ yieldIndex: number, waterUse: number, riskScore: number }} [results]
+ * @property {string} createdAt - ISO Date String
+ */
+`}
+            </CodeBlock>
+        </div>
+    );
+
+    const TeamPage = () => (
+        <div>
+            <PageHeader title="Equipo y Partners" subtitle="Los arquitectos de la resiliencia climática."/>
+            <Card>
+                <h3 className="font-bold font-outfit text-xl mb-4">Miembros del equipo</h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                    <div className="flex items-center gap-4 p-3 bg-cult-bg-alt rounded-xl">
+                        <span className="inline-block w-10 h-10 rounded-full bg-cult-accent/20 text-cult-accent text-2xl flex items-center justify-center">👨‍💼</span>
+                        <div>
+                            <div className="font-bold">Miguel Andrés Centellas López</div>
+                            <div className="text-cult-ink/60 text-xs">Perú</div>
+                            <div className="text-cult-ink/60 text-xs">IES CIBERTEC S.A.C</div>
+                            <div className="text-cult-ink/60 text-xs">Computación e Informática</div>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-4 p-3 bg-cult-bg-alt rounded-xl">
+                        <span className="inline-block w-10 h-10 rounded-full bg-cult-accent/20 text-cult-accent text-2xl flex items-center justify-center">👨‍🎓</span>
+                        <div>
+                            <div className="font-bold">Bryan Edgar Yared Vargas Maldonado</div>
+                            <div className="text-cult-ink/60 text-xs">Perú</div>
+                            <div className="text-cult-ink/60 text-xs">Universidad Nacional Agraria La Molina</div>
+                            <div className="text-cult-ink/60 text-xs">Estadística e Informática (Data Science) - Ingeniería Agrícola</div>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-4 p-3 bg-cult-bg-alt rounded-xl">
+                        <span className="inline-block w-10 h-10 rounded-full bg-cult-accent/20 text-cult-accent text-2xl flex items-center justify-center">👨‍💻</span>
+                        <div>
+                            <div className="font-bold">Henoc Elías Jorge Ugarte</div>
+                            <div className="text-cult-ink/60 text-xs">Perú</div>
+                            <div className="text-cult-ink/60 text-xs">IES CIBERTEC S.A.C</div>
+                            <div className="text-cult-ink/60 text-xs">Computación e Informática</div>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-4 p-3 bg-cult-bg-alt rounded-xl">
+                        <span className="inline-block w-10 h-10 rounded-full bg-cult-accent/20 text-cult-accent text-2xl flex items-center justify-center">👩‍🎓</span>
+                        <div>
+                            <div className="font-bold">Yaki Clarita Guerrero García</div>
+                            <div className="text-cult-ink/60 text-xs">Perú</div>
+                            <div className="text-cult-ink/60 text-xs">Universidad Peruana de Ciencias Aplicadas</div>
+                            <div className="text-cult-ink/60 text-xs">Ingeniería Industrial</div>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-4 p-3 bg-cult-bg-alt rounded-xl">
+                        <span className="inline-block w-10 h-10 rounded-full bg-cult-accent/20 text-cult-accent text-2xl flex items-center justify-center">👨‍💻</span>
+                        <div>
+                            <div className="font-bold">Abraham Jeremias Huamán Carlos</div>
+                            <div className="text-cult-ink/60 text-xs">Perú</div>
+                            <div className="text-cult-ink/60 text-xs">Universidad de San Martin de Porres</div>
+                            <div className="text-cult-ink/60 text-xs">Ing. Computación y sistemas</div>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-4 p-3 bg-cult-bg-alt rounded-xl">
+                        <span className="inline-block w-10 h-10 rounded-full bg-cult-accent/20 text-cult-accent text-2xl flex items-center justify-center">👨‍💻</span>
+                        <div>
+                            <div className="font-bold">Alessandro David Vicente Conislla</div>
+                            <div className="text-cult-ink/60 text-xs">Perú</div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </div>
+    );
+
+    // --- MAIN APP ---
+    const App = () => {
+        const CurrentPage = () => {
+            const { currentPage } = useNavigation();
+
+            // ROUTER: Add new pages here
+            const pages = {
+                home: <HomePage />,
+                mission: <V2MOMPage />,
+                v2mom: <V2MOMPage />,
+                ods: <ODSPage />,
+                data: <DataPage source="smap" />,
+                smap: <DataPage source="smap" />,
+                gpm: <DataPage source="gpm" />,
+                modis: <DataPage source="modis" />,
+                tech: <TechStackPage />,
+                team: <TeamPage />,
+            };
+
+            return pages[currentPage] || <HomePage />;
+        };
+
+        return (
+            <AppProvider>
+                <div className="flex">
+                    <Sidebar />
+                    <main className="ml-64 flex-grow p-8 transition-all duration-300">
+                        <CurrentPage />
+                    </main>
+                </div>
+            </AppProvider>
+        );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+
+</script>
+</body>
+</html>
